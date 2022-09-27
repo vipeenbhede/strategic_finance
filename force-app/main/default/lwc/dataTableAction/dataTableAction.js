@@ -58,9 +58,17 @@ export default class DataTableAction extends LightningElement {
 		this.selectedRows.forEach(rec => {
 			this.jsonData = this.jsonData.filter(item => item.id != rec.id);
 		});
+
+		//to reset the value tble row changes
 		this.resetValues();
+		
+		//to calculate balance once debt removed from table
 		this.calculateTotal();
+
+		//update total row count once debt removed from table
 		this.totalRowCount();
+
+		//show toast note that debt has been removed
 		this.debtRemoveNote();
 	}
 
@@ -120,7 +128,7 @@ export default class DataTableAction extends LightningElement {
 		const data = [];
 		this.jsonData.forEach(rec => { data.push(rec); });
 
-		var recVal = { 'creditorName': this.creditorName, 'firstName': this.firstName, 'lastName': this.lastName, 'minPaymentPercentage': Number(this.minPaymentPercentage), 'balance': Number(this.balance) };
+		var recVal = { 'id': this.jsonData[this.jsonData.length - 1].id+1, 'creditorName': this.creditorName, 'firstName': this.firstName, 'lastName': this.lastName, 'minPaymentPercentage': Number(this.minPaymentPercentage), 'balance': Number(this.balance) };
 		
 		data.push(recVal);
 		this.showSuccessToast();
