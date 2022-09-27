@@ -1,0 +1,98 @@
+<template>
+    <div if:false={isLoaded}>
+        <lightning-card title="Strategic Financial Solutions" icon-name="custom:custom14">
+
+            <lightning-datatable data={jsonData} columns={columns} key-field="Id" onrowselection={getSelectedIdAction}>
+            </lightning-datatable>
+            <br />
+            <div>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-6">
+                        <span>
+                            <lightning-button title="Add Debt" label="Add Debt" size="small" variant="brand"
+                                icon-name="utility:add" icon-position="right" onclick={openModal}></lightning-button>
+                        </span>
+                    </div>
+                    <div class="slds-col slds-size_5-of-6">
+                        <span class="slds-text-align_left">
+                            <lightning-button title="Delete" label="Remove Debt" size="small" variant="brand"
+                                icon-name="utility:delete" icon-position="right" onclick={deleteRowAction}>
+                            </lightning-button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            </br>
+            <!--Add CSS for -->
+            <div>
+
+                <div class="slds-grid slds-gutters itemColor">
+                    <div class="slds-col slds-size_11-of-12">
+                        <span>Total:</span>
+                    </div>
+                    <div class="slds-col slds-size_1-of-12">
+                        <span class="slds-text-align_left">$ {totalBal}</span>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col">
+                        <span>Total Row Count: {totalRowCnt}</span>
+                    </div>
+                    <div class="slds-col">
+                        <span>Check Row Count: {chkRowCnt}</span>
+                    </div>
+                    <div class="slds-col">
+                        <span class="slds-float_left"></span>
+                    </div>
+                </div>
+            </div>
+
+            <br /><br />
+
+        </lightning-card>
+
+        <template if:true={isModalOpen}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                            title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                                size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Add Debt</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning-input type="text" value={creditorName} data-element="user-input-text"
+                            label="Creditor Name" onchange={handleInputChange}> </lightning-input>
+                        <lightning-input type="text" value={firstName} data-element="user-input-text" label="First Name"
+                            onchange={handleInputChange}> </lightning-input>
+                        <lightning-input type="text" value={lastName} data-element="user-input-text" label="Last Name"
+                            onchange={handleInputChange}> </lightning-input>
+                        <lightning-input type="number" value={minPaymentPercentage} data-element="user-input-number"
+                            label="Min Pay %" step="0.01" formatter="percent" onchange={handleInputChange}>
+                        </lightning-input>
+                        <lightning-input type="number" value={balance} data-element="user-input-number" label="Balance"
+                            step=".01" formatter="currency" onchange={handleInputChange}> </lightning-input>
+
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={closeModal}
+                            title="Cancel">Cancel</button>
+                        <button class="slds-button slds-button_brand" onclick={submitDetails} title="Add">Add</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </div>
+    <div if:true={isLoaded} class="slds-is-relative">
+        <lightning-spinner alternative-text="Loading..." variant="brand">
+        </lightning-spinner>
+    </div>
+</template>
